@@ -1,8 +1,8 @@
 {
   "name": "Who-s-that-Pok-mon",
   "scripts": {
-  "dev": "node index.js"
-},
+    "dev": "node index.js"
+  },
   "dependencies": {
     "express": "^5.2.1"
   }
