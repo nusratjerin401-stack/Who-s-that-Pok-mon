@@ -24,6 +24,7 @@ app.get("/new", (req, res) => {
 
 
 app.get("/hint/:game_id/:n", (req, res) => {
+
   const { game_id, n } = req.params;
 
   const pokemonID = Number(
@@ -33,16 +34,54 @@ app.get("/hint/:game_id/:n", (req, res) => {
   fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
     .then((response) => response.json())
     .then((data) => {
-      if (Number(n) === 1) {
+      
+      
+        if (Number(n) === 1) {
         return res.json({
           hint: 1,
-          value: data.moves[0]?.move?.name,
+          value: data.moves[0].move.name,
+        });
+      }
+        if (Number(n) === 2) {
+        return res.json({
+          hint: 2,
+          value: data.moves[1].move.name,
         });
       }
 
-      return res.status(400).json({
+        if (Number(n) === 3) {
+        const types = [];
+
+        for (let i =0; i < data.types.length; i++) {
+            types.push(data.types[i].type.name);
+        }
+          return res.json({
+            hint:3,
+            value: types
+             });
+    }
+      
+       
+        if (Number(n) === 4) {
+        return res.json({
+          hint: 4,
+          height: data.height,
+          weight: data.weight,
+        });
+      }
+     
+        if (Number(n) === 5) {
+        return res.json({
+          hint: 5,
+          value: data.cries.latest,
+        });
+      }
+       
+    
+    return res.status(400).json({
         error: "Hint does not exist",
       });
+
     })
     .catch(() => {
       res.status(500).json({
@@ -52,7 +91,7 @@ app.get("/hint/:game_id/:n", (req, res) => {
 });
  
  app.listen(3000);
-  
+
 
  
  
