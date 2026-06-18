@@ -90,8 +90,50 @@ app.get("/hint/:game_id/:n", (req, res) => {
     });
 });
  
- app.listen(3000);
+ 
 
+ app.get("/guess/:game_id/:guess", (req, res) => {
+    const {game_id, guess} = req.params ;
+
+    const pokemonID = Number (
+        Buffer.from (game_id, "base64").toString()
+    );
+   fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
+    .then((response) => response.json())
+    .then((data) => {
+    console.log(data.name);
+    console.log(guess);  
+  if (
+    data.name.toLowerCase() ===
+    guess.toLowerCase() 
+  ) {
+    return res.json({
+        correct: true,
+        pokemon: data.name, 
+
+    });
+}
+    return res.json({
+        correct: false,
+    });
+
+    
+    
+ })
+ .catch(() => {
+      res.status(500).json({
+        error: "Failed to fetch Pokemon",
+
+
+});
+
+   });
+ });
+
+
+
+
+ app.listen(3000);
 
  
  
