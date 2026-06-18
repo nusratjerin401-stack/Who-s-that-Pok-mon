@@ -2,11 +2,13 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
+
 app.get("/", (req, res) => {
   res.json({
     message: "Who's That Pokémon API",
   });
 });
+
 
 app.get("/new", (req, res) => {
   const randomPokemonID =
@@ -98,12 +100,20 @@ app.get("/hint/:game_id/:n", (req, res) => {
     const pokemonID = Number (
         Buffer.from (game_id, "base64").toString()
     );
+
+
+
    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
     .then((response) => response.json())
     .then((data) => {
+   
+   
     console.log(data.name);
     console.log(guess);  
-  if (
+  
+  
+  
+    if (
     data.name.toLowerCase() ===
     guess.toLowerCase() 
   ) {
@@ -130,10 +140,7 @@ app.get("/hint/:game_id/:n", (req, res) => {
    });
  });
 
-
-
-
- app.listen(3000);
+app.listen(3000);
 
  
  
